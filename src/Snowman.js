@@ -57,9 +57,11 @@ function Snowman({
     });
 
     setNWrong(n => n + (answer.includes(ltr) ? 0 : 1));
+    // nWrong is still the number pre-guess
   }
 
   /** generateButtons: return array of letter buttons to render */
+  // TODO: Find out why the button is being wrapped in ()
   function generateButtons() {
     return "abcdefghijklmnopqrstuvwxyz".split("").map(ltr => (
         <button
@@ -73,11 +75,20 @@ function Snowman({
     ));
   }
 
+  // TODO: Why is 'images' wrapped in ()
   return (
       <div className="Snowman">
+        <p>Number wrong: {nWrong}.</p>
         <img src={(images)[nWrong]} alt={nWrong} />
-        <p className="Snowman-word">{guessedWord()}</p>
-        <p>{generateButtons()}</p>
+        <p className="Snowman-word">{
+          nWrong >= maxWrong ? answer : guessedWord()
+        }</p>
+        <p>{
+          nWrong >= maxWrong ? null : generateButtons()
+        }</p>
+        <p className="Snowman-result-lose">{
+          nWrong >= maxWrong ? 'You lose' : null
+        }</p>
       </div>
   );
 }
